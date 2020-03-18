@@ -1,0 +1,5 @@
+﻿<!DOCTYPE html>
+
+<h1> {{ restaurant.name }}</h1>
+{% if error_message %}<p><strong>{{error_message}}</strong></p>{%endif%}
+{%csrf_token%}
