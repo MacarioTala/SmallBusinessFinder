@@ -95,7 +95,7 @@ def restaurant_list(request):
 @csrf_exempt
 def restaurant_detail(request,pk):
 	try:
-		restaurant == m.Restaurant.object.get(pk=pk)
+		restaurant = m.Restaurant.objects.get(pk=pk)
 	except m.Restaurant.DoesNotExist:
 		return HttpResponse(status=404)
 	
