@@ -36,6 +36,9 @@
     </Compile>
     <Compile Include="app\forms.py" />
     <Compile Include="app\models.py" />
+    <Compile Include="app\security_extensions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\serializers.py">
       <SubType>Code</SubType>
     </Compile>
