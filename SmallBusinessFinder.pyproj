@@ -36,9 +36,6 @@
     </Compile>
     <Compile Include="app\forms.py" />
     <Compile Include="app\models.py" />
-    <Compile Include="app\security_extensions.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="app\serializers.py">
       <SubType>Code</SubType>
     </Compile>
@@ -66,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\templates\app\restaurantDetail.html" />
+    <Content Include="app\templates\app\submitRestaurant.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />

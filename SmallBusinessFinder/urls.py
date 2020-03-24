@@ -14,6 +14,7 @@ urlpatterns = [
     path('', views.IndexView.as_view(),name='index'),
     path('contact/', views.contact, name='contact'),
     path('about/', views.about, name='about'),
+    path('submitRestaurant/', views.submitRestaurant, name='submitRestaurant'),
     path('login/',
          LoginView.as_view
          (

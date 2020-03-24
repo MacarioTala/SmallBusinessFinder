@@ -74,6 +74,19 @@ def about(request):
         }
     )
 
+def submitRestaurant(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/submitRestaurant.html',
+        {
+            'title':'Submit Restaurant',
+            'message':'Keeping our local small businesses alive',
+            'year':datetime.now().year,
+        }
+    )
+
 #API Section
 @csrf_exempt
 def restaurant_list(request):

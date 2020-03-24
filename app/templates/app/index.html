@@ -1,56 +1,63 @@
 {% extends "app/layout.html" %}
-
+{% load static %}
 {% block content %}
 
-<div class="jumbotron">
-    <h1>Feed Me</h1>
-    <p class="lead"> Free site that helps you find local restaurants during this crisis </p>
+<div class="jumbotron d-flex align-items-center justify-content-center position-relative">
+    <div class="container text-center position-relative">
+        <h1 class="text-white">Feed Me</h1>
+        <p  class="text-white mb-0"> Free site that helps you find local restaurants during this crisis </p>
+    </div>
 </div>
-
-<style>
-    table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-</style>
-
-<div class="row">
+<div class="container">
+    <div class="py-4 py-md-5">
         <h2>Restaurants in your city</h2>
-        <p>
-           <table style="width:100%">
-               <tr>
-                   <th>Restaurant Name</th>
-                   <th>Phone Number</th>
-                   <th>Address </th>
-                   <th>Cuisine</th>
-				   <th>Delivers</th>
-                   <th>If you've never been here, you should try</th>
-               {% if restaurant_list %}
-               {% for restaurant in restaurant_list %}
-                  <tr><td><a href="{% url 'restaurant_detail' restaurant.id %}">{{restaurant.name}} </a></td> 
-                  <td>{{restaurant.phoneNumber}}</td> 
-                  <td>{{restaurant.address}}</td>
-                  <td>{{restaurant.cuisine}}</td>
-                  <td>{{restaurant.delivers.delivers_verbose}}</td>
-                  <td>{{restaurant.ifYouveNeverBeenHereTryThisFirst}}</td>
-               </tr>
-               {%endfor%}
-           </table>
-            {%else%}
-            <p> No restaurants in your area </p>
+        {% if restaurant_list %}
+          {% for restaurant in restaurant_list %}
+            <div class="border rounded overflow-hidden mb-4 d-md-flex">
+              <div class="restaurant-img float-md-left d-none d-md-block" style="background-image: url({% static 'app/images/thumb.png' %})"></div>
+              <div class="restaurant-details float-md-left">
+                <h3>{{restaurant.name}}</h3>
+                <div class="row">
+                  <div class="col-sm-6">
+                      <div class="icons-text">{{restaurant.cuisine}}</div>
+                      <div class="icons-text address">{{restaurant.address}}</div>
+                      <div class="icons-text number">{{restaurant.phoneNumber}}</div>        
+                      <div class="icons-text clock"> <span class="text-success">Open</span> 12am – 11pm <a href="#" class="hours-link ml-1" data-toggle="tooltip" title="<div class='opeaning-hours d-flex font-weight-bold'><div class='days'>Mon</div> <div class='hours'>12am – 11pm</div></div><div class='opeaning-hours d-flex'><div class='days'>Tue</div> <div class='hours'>12am – 11pm</div></div><div class='opeaning-hours d-flex'><div class='days'>Wed</div> <div class='hours'>12am – 11pm</div></div><div class='opeaning-hours d-flex'><div class='days'>Thu</div> <div class='hours'>12am – 11pm</div></div><div class='opeaning-hours d-flex'><div class='days'>Fri</div> <div class='hours'>12am – 11pm</div></div><div class='opeaning-hours d-flex'><div class='days'>Sat</div> <div class='hours'>12am – 11pm</div></div><div class='opeaning-hours d-flex'><div class='days'>Sun</div> <div class='hours'>12am – 11pm</div></div>">See More</a></div>              
+                  </div>
+                  <div class="col-sm-6">
+                      <div class="icons-text delivery">{{restaurant.delivers.delivers_verbose}}</div>                      
+                      <a href="{% static 'app/images/menu-1.jpg' %}" class="icons-text d-inline-block menu" data-fancybox="images">Food Menu</a>
+                      <div class="fav-item">
+                          <p class="mb-0">If you've never been here, you should try:</p>
+                          <p class="mb-0">{{restaurant.ifYouveNeverBeenHereTryThisFirst}}</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%endfor%}
+          <nav aria-label="Page navigation" class="d-flex justify-content-center">
+            <ul class="pagination mb-0">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        {%else%}
+          <p> No restaurants in your area </p>
         {%endif%}
-        </p>   
+    </div>
 </div>
+
 {%endblock%}
 

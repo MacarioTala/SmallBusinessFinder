@@ -15,7 +15,7 @@ class Restaurant(models.Model):
 	DELIVERY_CHOICES = (("DELIVERY","Delivery"),("TAKEOUT","TakeOut"))
 	
 	name = models.CharField(max_length=100,blank=True, default='')
-	description = models.TextField(max_length= 200, default='')
+	description = models.TextField(default='')
 	cuisine = models.TextField(default='')
 	address = models.TextField(default='')
 	city = models.CharField(max_length=100,blank=True, default='')
