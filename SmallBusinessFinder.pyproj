@@ -62,6 +62,7 @@
     <Folder Include="SmallBusinessFinder\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\templates\app\editRestaurant.html" />
     <Content Include="app\templates\app\restaurantDetail.html" />
     <Content Include="app\templates\app\submitRestaurant.html" />
     <Content Include="requirements.txt" />

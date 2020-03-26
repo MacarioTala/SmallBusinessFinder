@@ -13,6 +13,8 @@ from datetime import datetime
 from django.template import loader
 from django.urls import reverse
 from django.views import generic
+from app.forms import SubmitRestaurantForm
+from app.models import Restaurant
 
 class IndexView(generic.ListView):
 	template_name = 'app/index.html'
@@ -75,12 +77,25 @@ def about(request):
     )
 
 def submitRestaurant(request):
-    """Renders the about page."""
-    assert isinstance(request, HttpRequest)
-    return render(
+	if request.method == 'POST':
+		restaurant = m.Restaurant()
+		restaurant.name = request.POST['restaurant-name']
+		restaurant.address = request.POST['restaurant-address']
+		restaurant.save()
+		form = SubmitRestaurantForm(data=request.POST)
+		#form.restaurant_name=request.POST['restaurant-name']
+		#form.restaurant_address= request.POST['restaurant-address']
+		#if form.is_valid():
+		#	form.save()
+		#else:
+		#	raise ValueError(form.errors)
+	else:
+		form = SubmitRestaurantForm()
+	return render(
         request,
         'app/submitRestaurant.html',
-        {
+        {	
+			'form':form,
             'title':'Submit Restaurant',
             'message':'Keeping our local small businesses alive',
             'year':datetime.now().year,
