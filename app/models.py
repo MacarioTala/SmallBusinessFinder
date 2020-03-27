@@ -32,9 +32,17 @@ class Restaurant(models.Model):
 	sunday = models.BooleanField(default=True)
 	delivers = models.CharField(choices=DELIVERY_CHOICES,default="TAKEOUT",max_length=10)
 	ifYouveNeverBeenHereTryThisFirst = models.CharField('If youve never been here before, try this',max_length=100,blank=True, default='')
+	isLive = models.BooleanField(default=False)
 	
 	def delivers_verbose(self):
 		return get_display(self.delivers,DELIVERY_CHOICES)
+
+	def validate(self):
+		isValid = True
+		if self.id != 0:
+			isValid=False
+			model_error = "NotUnique"
+		return isValid
 	
 	class Meta:
 		ordering = ['name']

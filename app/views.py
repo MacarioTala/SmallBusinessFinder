@@ -21,7 +21,7 @@ class IndexView(generic.ListView):
 	context_object_name = 'restaurant_list'
 
 	def get_queryset(self):
-		return m.Restaurant.objects.all()
+		return m.Restaurant.objects.filter(isLive=True)
 
 class ViewRestaurantDetails(generic.DetailView):
 	model = m.Restaurant
@@ -81,14 +81,20 @@ def submitRestaurant(request):
 		restaurant = m.Restaurant()
 		restaurant.name = request.POST['restaurant-name']
 		restaurant.address = request.POST['restaurant-address']
-		restaurant.save()
+		if Restaurant.objects.filter(name=restaurant.name):
+			return render(
+				request,
+				'app/submitError.html',
+				{
+					'title' : ' Restaurant already submitted',
+					'message' : 'This restaurant has already been submitted!'
+					}
+				)
+		else:
+			restaurant.save()
+			return HttpResponseRedirect('/thanks/')
 		form = SubmitRestaurantForm(data=request.POST)
-		#form.restaurant_name=request.POST['restaurant-name']
-		#form.restaurant_address= request.POST['restaurant-address']
-		#if form.is_valid():
-		#	form.save()
-		#else:
-		#	raise ValueError(form.errors)
+
 	else:
 		form = SubmitRestaurantForm()
 	return render(
@@ -107,7 +113,7 @@ def submitRestaurant(request):
 def restaurant_list(request):
 	
 	if request.method == 'GET':
-		restaurants = m.Restaurant.objects.all()
+		restaurants = m.Restaurant.objects.filter(isLive=True)
 		serializer = RestaurantSerializer(restaurants,many=True)
 		return JsonResponse(serializer.data, safe=False)
 		
