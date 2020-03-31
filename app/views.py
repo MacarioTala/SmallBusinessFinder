@@ -15,6 +15,7 @@ from django.urls import reverse
 from django.views import generic
 from app.forms import SubmitRestaurantForm
 from app.models import Restaurant
+from django.contrib import messages
 
 class IndexView(generic.ListView):
 	template_name = 'app/index.html'
@@ -34,7 +35,7 @@ def home(request):
         request,
         'app/index.html',
         {
-            'title':'Home Page',
+            'title':'FeedMe Seattle',
             'year':datetime.now().year,
         }
     )
@@ -81,30 +82,27 @@ def submitRestaurant(request):
 		restaurant = m.Restaurant()
 		restaurant.name = request.POST['restaurant-name']
 		restaurant.address = request.POST['restaurant-address']
+		restaurant.phoneNumber = request.POST['restaurant-phone']
+		restaurant.city = 'Seattle'
+		restaurant.isLive = True
+
 		if Restaurant.objects.filter(name=restaurant.name):
-			return render(
-				request,
-				'app/submitError.html',
-				{
-					'title' : ' Restaurant already submitted',
-					'message' : 'This restaurant has already been submitted!'
-					}
-				)
+			messages.add_message(request, messages.INFO,"Looks like this place is popular. It's already on here.",fail_silently=True)
+			return render(request,'app/submitRestaurant.html',{'title':'Submit Restaurant','message':"Looks like this place is popular. It's already on here."})
 		else:
 			restaurant.save()
-			return HttpResponseRedirect('/thanks/')
-		form = SubmitRestaurantForm(data=request.POST)
-
+			messages.add_message(request, messages.INFO,"Thanks for submitting this restaurant",fail_silently=True)
+			return render(request,'app/submitRestaurant.html',{'title':'Submit Restaurant','message':"Thanks for submitting this restaurant"})
+		
 	else:
-		form = SubmitRestaurantForm()
+		messages 
 	return render(
         request,
         'app/submitRestaurant.html',
         {	
-			'form':form,
-            'title':'Submit Restaurant',
-            'message':'Keeping our local small businesses alive',
+		    'title':'Submit Restaurant',
             'year':datetime.now().year,
+			'message': ''
         }
     )
 
